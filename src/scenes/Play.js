@@ -57,9 +57,23 @@ class Play extends Phaser.Scene {
             game.config.height,
             0xFFFFFF
             ).setOrigin(0, 0);
+        
+        // add rocket player 1
+        this.p1Rocket = new Rocket(
+            this,
+            game.config.width/2,
+            game.config.height - borderUISize,
+            'rocket'
+            ).setOrigin(0.5, 1);
+        
+        //defining keys
+        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     }
 
     update() {
-        this.starfield.tilePositionX -= 2;
+        this.starfield.tilePositionX -= 1;
     }
 }
