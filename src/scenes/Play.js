@@ -62,7 +62,7 @@ class Play extends Phaser.Scene {
         this.p1Rocket = new Rocket(
             this,
             game.config.width/2,
-            game.config.height - borderUISize,
+            game.config.height - borderUISize - borderPadding,
             'rocket'
             ).setOrigin(0.5, 1);
         
@@ -75,5 +75,6 @@ class Play extends Phaser.Scene {
 
     update() {
         this.starfield.tilePositionX -= 1;
+        this.p1Rocket.update();
     }
 }
