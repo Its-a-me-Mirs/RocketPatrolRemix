@@ -134,7 +134,7 @@ class Play extends Phaser.Scene {
 
         // timer in seconds
         scoreConfig.fixedWidth = 0;
-        this.clock = this.time.delayedCall(10000, () => {
+        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.gameOver = true;
             this.add.text(
                 game.config.width/2,
@@ -145,13 +145,23 @@ class Play extends Phaser.Scene {
             this.add.text(
                 game.config.width/2,
                 game.config.height/2 + 64,
-                'Press (R) to Restart',
+                'Press (R) to Restart or LEFT for Menu',
                 scoreConfig
                 ).setOrigin(0.5);
         }, null, this);
     }
 
     update() {
+        // to restart
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+            this.scene.restart();
+        }
+
+        // to menu
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+            this.scene.start("menuScene");
+        }
+
         this.starfield.tilePositionX -= 1;
 
         if (!this.gameOver) {
@@ -160,6 +170,7 @@ class Play extends Phaser.Scene {
             this.ship02.update();
             this.ship03.update();
         }
+
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
             this.p1Rocket.reset();
@@ -195,6 +206,7 @@ class Play extends Phaser.Scene {
         boom.anims.play('explode');
         boom.on('animationcomplete', () => {
             ship.reset();
+            this.sound.play('sfx_explosion');
             ship.alpha = 1;
             boom.destroy();
         });
