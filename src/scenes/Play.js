@@ -22,14 +22,6 @@ class Play extends Phaser.Scene {
             480,
             'starfield'
             ).setOrigin(0,0);
-
-        // green UI background
-        this.add.rectangle(
-            0,
-            borderUISize + borderPadding,
-            game.config.width, borderUISize * 2,
-            0x00FF00
-            ).setOrigin(0,0);
         
         // white borders
         this.add.rectangle(
@@ -61,6 +53,22 @@ class Play extends Phaser.Scene {
             0xFFFFFF
             ).setOrigin(0, 0);
         
+        // black UI background
+        this.add.rectangle(
+            0,
+            borderUISize,
+            game.config.width, borderUISize * 2.5,
+            0x000000
+            ).setOrigin(0,0);
+        
+        // green UI backdrop
+        this.add.rectangle(
+            borderUISize,
+            borderUISize + borderPadding *1.5,
+            game.config.width - borderUISize * 2, borderUISize *1.5,
+            0x00FF00
+            ).setOrigin(0,0);
+        
         // add rocket player 1
         this.p1Rocket = new Rocket(
             this,
@@ -72,7 +80,7 @@ class Play extends Phaser.Scene {
         // add spaceships (x3)
         this.ship01 = new Spaceship(
             this,
-            game.config.width + borderUISize*6,
+            game.config.width + borderUISize*10.75,
             borderUISize*4,
             'spaceship',
             0,
@@ -80,16 +88,16 @@ class Play extends Phaser.Scene {
             ).setOrigin(0, 0);
         this.ship02 = new Spaceship(
             this,
-            game.config.width + borderUISize*3,
-            borderUISize*5 + borderPadding*2,
+            game.config.width + borderUISize*6.5,
+            borderUISize*6.5 + borderPadding*3,
             'spaceship',
             0,
             20
             ).setOrigin(0,0);
         this.ship03 = new Spaceship(
             this,
-            game.config.width,
-            borderUISize*6 + borderPadding*4,
+            game.config.width + borderUISize,
+            borderUISize*9 + borderPadding*2,
             'spaceship',
             0,
             10
@@ -116,10 +124,11 @@ class Play extends Phaser.Scene {
             fontFamily: 'Courier',
             fontSize: '28px',
             backgroundColor: '#F3B141',
-            color: '#843605',
-            aligh: 'right',
+            color: '#BF340F',
+            align: 'right',
             padding: {
                 top: 5,
+                left: 5,
                 bottom: 5,
             },
             fixedWidth: 100
