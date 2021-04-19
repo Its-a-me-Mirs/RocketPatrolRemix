@@ -4,6 +4,11 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
+        // new assets
+        this.load.image('red', './assets/backdrop_red.png');
+        this.load.image('stars', './assets/backdrop_stars.png');
+        this.load.audio('gameOver', './assets/audio3.mp3');
+
         // load images and tile sprites
         this.load.image('starfield', './assets/starfield.png');
         this.load.image('rocket', './assets/rocket.png');
@@ -14,59 +19,39 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        // red backdrop
+        var image = this.add.image(0,0,'red').setOrigin(0,0);
+
         //place tile sprite
         this.starfield = this.add.tileSprite(
-            0,
-            0,
-            640,
-            480,
-            'starfield'
+            0,0,640,480,
+            'stars'
             ).setOrigin(0,0);
         
-        // white borders
+        // whiteUI background
         this.add.rectangle(
             0,
-            0,
+            borderUISize,
             game.config.width,
-            borderUISize,
-            0xFFFFFF
-            ).setOrigin(0, 0);
-        this.add.rectangle(
-            0,
-            game.config.height - borderUISize,
-            game.config.width,
-            borderUISize,
-            0xFFFFFF
-            ).setOrigin(0, 0);
-        this.add.rectangle(
-            0,
-            0,
-            borderUISize,
-            game.config.height,
-            0xFFFFFF
-            ).setOrigin(0, 0);
-        this.add.rectangle(
-            game.config.width - borderUISize,
-            0,
-            borderUISize,
-            game.config.height,
-            0xFFFFFF
-            ).setOrigin(0, 0);
+            borderUISize * 2.5,
+            0xcccccc
+            ).setOrigin(0,0);
         
-        // black UI background
+        // blackUI borders
         this.add.rectangle(
             0,
-            borderUISize,
-            game.config.width, borderUISize * 2.5,
+            0,
+            game.config.width,
+            borderUISize *2,
             0x000000
-            ).setOrigin(0,0);
+            ).setOrigin(0, 0);
         
         // green UI backdrop
         this.add.rectangle(
             borderUISize,
             borderUISize + borderPadding *1.5,
             game.config.width - borderUISize * 2, borderUISize *1.5,
-            0x00FF00
+            0x00dd00
             ).setOrigin(0,0);
         
         // add rocket player 1
@@ -158,6 +143,8 @@ class Play extends Phaser.Scene {
                 scoreConfig
                 ).setOrigin(0.5);
         }, null, this);
+
+
     }
 
     update() {
@@ -168,10 +155,23 @@ class Play extends Phaser.Scene {
 
         // to menu
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start("menuScene");
+            soundVar = false;
+            
+            // momentary screen
+            this.add.rectangle(
+                0, 0, 640, 480, 0x000000
+            ).setOrigin(0,0);
+            // gameOver music
+            this.sound.play('gameOver');
+            this.time.addEvent({
+                delay: 5000,
+                callback:()=> {
+                    this.scene.start("menuScene");
+                },
+            })
         }
 
-        this.starfield.tilePositionX -= 1;
+        this.starfield.tilePositionX -= 3;
 
         if (!this.gameOver) {
             this.p1Rocket.update();
